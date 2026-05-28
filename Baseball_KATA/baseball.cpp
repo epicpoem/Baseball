@@ -16,9 +16,25 @@ public:
 
 	GuessResult guess(const string& guessNumber) {
 		assertIllegalArgument(guessNumber);
-		if (guessNumber == question) {
-			return { true,3,0 };
+		
+		GuessResult ret;
+
+		ret.balls = 0;
+		ret.strikes = 0;
+		ret.solved = false;
+
+		for (int i = 0;i < 3;i++) {
+			for (int j = 0;j < 3;j++) {
+				if (guessNumber[i] == question[j]) {
+					if (i == j) ret.strikes++;
+					else ret.balls++;
+				}
+			}
 		}
+
+		if (ret.strikes == 3) ret.solved = true;
+
+		return ret;
 	}
 	void assertIllegalArgument(const std::string& guessNumber)
 	{
